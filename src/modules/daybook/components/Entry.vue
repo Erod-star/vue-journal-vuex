@@ -1,26 +1,54 @@
 <template>
     <div
       class="entry-container mb-3 pointer p-2"
-      @click="$router.push({ name: 'entry', params:{id: 14} })"
+      @click="$router.push({ name: 'entry', params: { id: entry.id } })"
     >
 
         <!-- Título -->
         <div class="entry-title d-flex">
-            <span class="text-success fs-5 fw-bold">22</span>
-            <span class="mx-1 fs-5">enero</span>
-            <span class="mx-2 fw-light">2024, viernes</span>
+            <span class="text-success fs-5 fw-bold">{{day}}</span>
+            <span class="mx-1 fs-5">{{ month }}</span>
+            <span class="mx-2 fw-light">{{ yearDay }}</span>
         </div>
 
         <div class="entry-description">
-            Aliqua pariatur et nulla ipsum occaecat consectetur pariatur deserunt consequat laborum aliquip. Dolore irure magna ut in non non nostrud consequat sint eu reprehenderit nostrud ad tempor. Aliquip incididunt Lorem qui reprehenderit nisi exercitation qui cillum duis laboris.  
+            {{ shortText }}
         </div>
     </div>
 </template>
 
 
 <script>
-export default {
+const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+const days   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
 
+export default {
+    props:{
+        entry:{
+            type: Object,
+            required: true,
+        }
+    },
+
+    computed:{
+        shortText() {
+            return ( this.entry.text.lenght > 130 )
+                ? this.entry.text
+                : this.entry.text.substring( 0, 130 ) + '...'
+        },
+        day() {
+            const date = new Date(this.entry.date)
+            return date.getDate()
+        },
+        month() {
+            const date = new Date(this.entry.date)
+            return months[ date.getMonth() ]
+        },
+        yearDay(){
+            const date = new Date(this.entry.date)
+            return `${date.getFullYear() }, ${ days[ date.getDay() ] }`
+        }    
+    }
 }
 </script>
 
