@@ -94,7 +94,7 @@ export default {
       },
       verifyMethod(data) {
         console.log(data);
-        isCaptchaValidated.value = true;
+        if (data) isCaptchaValidated.value = true;
       },
       expiredMethod() {
         Swal.fire(
@@ -102,6 +102,7 @@ export default {
           "La verificación ha caducado, vuelve a marcar la casilla de verificación",
           "error"
         );
+        isCaptchaValidated.value = false;
       },
     };
   },
